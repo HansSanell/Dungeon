@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dungeon", "Dungeon\Dungeon\Dungeon.csproj", "{E3E7C559-D001-4265-8AD9-9EBE92D71F9C}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "DungeonContent", "Dungeon\DungeonContent\DungeonContent.contentproj", "{9A3C7C4C-5651-43AA-A833-C5C705996B0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3E7C559-D001-4265-8AD9-9EBE92D71F9C}.Debug|x86.ActiveCfg = Debug|x86
+		{E3E7C559-D001-4265-8AD9-9EBE92D71F9C}.Debug|x86.Build.0 = Debug|x86
+		{E3E7C559-D001-4265-8AD9-9EBE92D71F9C}.Release|x86.ActiveCfg = Release|x86
+		{E3E7C559-D001-4265-8AD9-9EBE92D71F9C}.Release|x86.Build.0 = Release|x86
+		{9A3C7C4C-5651-43AA-A833-C5C705996B0F}.Debug|x86.ActiveCfg = Debug|x86
+		{9A3C7C4C-5651-43AA-A833-C5C705996B0F}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

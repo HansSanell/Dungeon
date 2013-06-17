@@ -1,0 +1,19 @@
+﻿FR1		[Not working] Switch from redrawing all tiles to just the ones with "drawn" parameters as false.
+
+FR2		[Not working] When moving a creature set the new and old tile as drawn=false to redraw them and not all others
+
+FR3		[done] Move all creatures to a list to remove parsing all tiles
+
+FR4		When moving creature, check adjecent tiles if mineable and checked, if so mine it to increase map 
+
+FR5		Increase mapsize
+
+FR6		Movable camera/map. Related to FR5
+
+FR7		Special spawn point texture
+
+FR8		Own AI players
+
+FR9		Combat if AI adjecent to eachother
+
+FR10	[Done?] Multiple spawnpoints. List implemented, working? 
