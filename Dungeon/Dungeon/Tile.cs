@@ -23,6 +23,7 @@ namespace Dungeon
         IMPASSABLE=0,
         PASSABLE=1,
         MINEABLE=2,
+        TAKEN=3,
     }
 
     class TileContains
@@ -120,6 +121,10 @@ namespace Dungeon
         public TileContains getTileContains()
         {
             return contains;
+        }
+        public void setTaken(TileCollision pTaken)
+        {
+            passable = pTaken;
         }
     }
 }

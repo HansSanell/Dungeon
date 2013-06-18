@@ -164,8 +164,6 @@ namespace Dungeon
         {
             //Add function call for moving creatures respecively enemies based on the list 
             Config.applog.print(string.Format("length: {0}", tiles[x, y].getTileContains().enemies.Count), Config.LOGLEVEL);
-            Dictionary<Vector2, Enemy> removal = new Dictionary<Vector2,Enemy>();
-            List<Enemy> taggedForRemoval = new List<Enemy>();
 
             foreach (Enemy enemy in enemies)
             {
@@ -198,6 +196,7 @@ namespace Dungeon
                  * 
                  * Open issue: moving two enemies from the same tile to the removal queue will crash! 
                 */
+                
                 if (enemy.moved == false)
                 {
 
@@ -206,98 +205,74 @@ namespace Dungeon
                     Config.applog.print("got random", Config.LOGLEVEL);
                     int num = rnd.Next();
                     tiles[0, 0].setTexture(Content.Load<Texture2D>("dirt"));
-                    Vector2 pos = new Vector2(0, 0) ;
+                    Vector2 pos = new Vector2(x, y) ;
                     enemy.moved = true;
-
-                        switch (num % 5)
-                        {
-                            case 0:
-                                Config.applog.print("case 0", Config.LOGLEVEL);
-                                if (tiles[x - 1, y].getTileCollision().Equals(TileCollision.PASSABLE))
-                                {
-                                    Config.applog.print("case 0 passable", Config.LOGLEVEL);
-                                  
-                                    tiles[x - 1, y].getTileContains().AddEnemy(new Enemy(enemy));
-                                 //   tiles[x, y].getTileContains().RemoveEnemy(enemy);
-                                    //removal.Add(pos, enemy);
-                                    
-                                    run = false;
-                                }
-                                break;
-                            case 1:
-                                Config.applog.print("case 1", Config.LOGLEVEL);
-                                if (tiles[x + 1, y].getTileCollision().Equals(TileCollision.PASSABLE))
-                                {
-                                    Config.applog.print("case 1 passable", Config.LOGLEVEL);
-                                    tiles[x + 1, y].getTileContains().AddEnemy(new Enemy(enemy));
-                               //     tiles[x + 1, y].getTileContains().RemoveEnemy(enemy);
-                                  
-                                    //removal.Add(pos, enemy);
-                                    
-                                    run = false;
-                                }
-                                break;
-                            case 2:
-                                Config.applog.print("case 2", Config.LOGLEVEL);
-                                if (tiles[x, y].getTileCollision().Equals(TileCollision.PASSABLE))
-                                {
-                                    Config.applog.print("case 2 passable", Config.LOGLEVEL);
-                                   // pos = new Vector2(0, 0);
-                                    
-                                    //add to the same cell, optimize away? 
-                                    //tiles[x , y].getTileContains().AddCreature(new Creature(creature.texture, creature.name));
-                                    //run = false;
-                                    //creature.moved = true ???? 
-                                }
-                                break;
-                            case 3:
-                                Config.applog.print("case 3", Config.LOGLEVEL);
-                                if (tiles[x, y - 1].getTileCollision().Equals(TileCollision.PASSABLE))
-                                {
-                                    Config.applog.print("case 3 passable", Config.LOGLEVEL);
-                                    tiles[x, y - 1].getTileContains().AddEnemy(new Enemy(enemy));
-                         //           tiles[x, y - 1].getTileContains().RemoveEnemy(enemy);
-                                  
-                                    //removal.Add(pos, enemy);
-                                    run = false;
-                                }
-                                break;
-                            case 4:
-                                Config.applog.print("case 4", Config.LOGLEVEL);
-                                if (tiles[x, y + 1].getTileCollision().Equals(TileCollision.PASSABLE))
-                                {
-                                    Config.applog.print("case 4 passable", Config.LOGLEVEL);
-                                    tiles[x, y + 1].getTileContains().AddEnemy(new Enemy(enemy));
-                                //    tiles[x, y + 1].getTileContains().RemoveEnemy(enemy);
-                                
-                                    //(removal.Add(pos, enemy);
-                                    run = false;
-                                }
-                                break;
-                        }
                     
+                    switch (num % 5)
+                    {
+                        case 0:
+                            Config.applog.print("case 0", Config.LOGLEVEL);
+                            if (tiles[x - 1, y].getTileCollision().Equals(TileCollision.PASSABLE))
+                            {
+                                Config.applog.print("case 0 passable", Config.LOGLEVEL);
+
+                                tiles[x - 1, y].getTileContains().AddEnemy(new Enemy(enemy));
+                                tiles[x - 1, y].setTaken(TileCollision.TAKEN);
+                                run = false;
+                            }
+                            break;
+                        case 1:
+                            Config.applog.print("case 1", Config.LOGLEVEL);
+                            if (tiles[x + 1, y].getTileCollision().Equals(TileCollision.PASSABLE))
+                            {
+                                Config.applog.print("case 1 passable", Config.LOGLEVEL);
+                                tiles[x + 1, y].getTileContains().AddEnemy(new Enemy(enemy));
+                                tiles[x + 1, y].setTaken(TileCollision.TAKEN);
+                                run = false;
+                            }
+                            break;
+                        case 2:
+                            Config.applog.print("case 2", Config.LOGLEVEL);
+                            if (tiles[x, y].getTileCollision().Equals(TileCollision.PASSABLE))
+                            {
+                                Config.applog.print("case 2 passable", Config.LOGLEVEL);
+                                tiles[x, y].setTaken(TileCollision.TAKEN);
+                            }
+                            break;
+                        case 3:
+                            Config.applog.print("case 3", Config.LOGLEVEL);
+                            if (tiles[x, y - 1].getTileCollision().Equals(TileCollision.PASSABLE))
+                            {
+                                Config.applog.print("case 3 passable", Config.LOGLEVEL);
+                                tiles[x, y - 1].getTileContains().AddEnemy(new Enemy(enemy));
+                                tiles[x, y - 1].setTaken(TileCollision.TAKEN);
+                                run = false;
+                            }
+                            break;
+                        case 4:
+                            Config.applog.print("case 4", Config.LOGLEVEL);
+                            if (tiles[x, y + 1].getTileCollision().Equals(TileCollision.PASSABLE))
+                            {
+                                Config.applog.print("case 4 passable", Config.LOGLEVEL);
+                                tiles[x, y + 1].getTileContains().AddEnemy(new Enemy(enemy));
+                                tiles[x, y + 1].setTaken(TileCollision.TAKEN);
+                                run = false;
+                            }
+                            break;
+                    }
                     if (!run)
                     {
+                        tiles[x, y].setPassable(TileCollision.PASSABLE);
                         tiles[x, y].getTileContains().RemoveEnemy(enemy);
                     }
 
                 }
-            }
-     
-            foreach(Vector2 position in removal.Keys)
-            {
-                
-                
-                tiles[(int)position.X, (int)position.Y].getTileContains().RemoveEnemy(removal[position]);
-                Config.applog.print(string.Format("length after: {0}", enemies.Count), Config.LOGLEVEL);
             }
         }
         private void moveCreatures(Random rnd, int x, int y, List<Creature> creatures)
         {
             //Add function call for moving creatures respecively enemies based on the list 
             Config.applog.print(string.Format("length: {0}", tiles[x, y].getTileContains().creatures.Count), Config.LOGLEVEL);
-            Dictionary<Vector2, Creature> removal = new Dictionary<Vector2, Creature>();
-          
 
             foreach (Creature creature in creatures)
             {
@@ -329,84 +304,67 @@ namespace Dungeon
                 bool run = true;
                 Config.applog.print("got random", Config.LOGLEVEL);
                 int num = rnd.Next();
-             //   tiles[0, 0].setTexture(Content.Load<Texture2D>("dirt"));
                 creature.moved = true;
-
+                
                 Config.applog.print("entering battle", 1);
-                if (!creature.battle(tiles, x, y))
+
+                switch (num % 5)
                 {
-                    Config.applog.print("enemy died", 1);
-                   
-                    removal.Add(new Vector2(x, y), creature);
-                    // enemies.Remove(enemy); Tag enemy for removal? just skip moving it and remove it afterwards? 
-                }
-                else
-                {
-                    switch (num % 5)
-                    {
-                        case 0:
-                            Config.applog.print("case 0", Config.LOGLEVEL);
-                            if (tiles[x - 1, y].getTileCollision().Equals(TileCollision.PASSABLE))
-                            {
-                                Config.applog.print("case 0 passable", Config.LOGLEVEL);
-                                //if the tile contains and enemy, battle both. check if that tile's enemy/creature has 0 or less in hp then remove. 
-                                tiles[x - 1, y].getTileContains().AddCreature(new Creature(creature));
-
-                                run = false;
-                            }
-                            break;
-                        case 1:
-                            Config.applog.print("case 1", Config.LOGLEVEL);
-                            if (tiles[x + 1, y].getTileCollision().Equals(TileCollision.PASSABLE))
-                            {
-                                Config.applog.print("case 1 passable", Config.LOGLEVEL);
-                                tiles[x + 1, y].getTileContains().AddCreature(new Creature(creature));
-
-                                run = false;
-                            }
-                            break;
-                        case 2:
-                            Config.applog.print("case 2", Config.LOGLEVEL);
-                            if (tiles[x, y].getTileCollision().Equals(TileCollision.PASSABLE))
-                            {
-                                Config.applog.print("case 2 passable", Config.LOGLEVEL);
-
-                            }
-                            break;
-                        case 3:
-                            Config.applog.print("case 3", Config.LOGLEVEL);
-                            if (tiles[x, y - 1].getTileCollision().Equals(TileCollision.PASSABLE))
-                            {
-                                Config.applog.print("case 3 passable", Config.LOGLEVEL);
-                                tiles[x, y - 1].getTileContains().AddCreature(new Creature(creature));
-
-                                run = false;
-                            }
-                            break;
-                        case 4:
-                            Config.applog.print("case 4", Config.LOGLEVEL);
-                            if (tiles[x, y + 1].getTileCollision().Equals(TileCollision.PASSABLE))
-                            {
-                                Config.applog.print("case 4 passable", Config.LOGLEVEL);
-                                tiles[x, y + 1].getTileContains().AddCreature(new Creature(creature));
-
-                                run = false;
-                            }
-                            break;
-                    }
+                    case 0:
+                        Config.applog.print("case 0", Config.LOGLEVEL);
+                        if (tiles[x - 1, y].getTileCollision().Equals(TileCollision.PASSABLE))
+                        {
+                            Config.applog.print("case 0 passable", Config.LOGLEVEL);
+                            //if the tile contains and enemy, battle both. check if that tile's enemy/creature has 0 or less in hp then remove. 
+                            tiles[x - 1, y].getTileContains().AddCreature(new Creature(creature));
+                            tiles[x - 1, y].setPassable(TileCollision.TAKEN);
+                            run = false;
+                        }
+                        break;
+                    case 1:
+                        Config.applog.print("case 1", Config.LOGLEVEL);
+                        if (tiles[x + 1, y].getTileCollision().Equals(TileCollision.PASSABLE))
+                        {
+                            Config.applog.print("case 1 passable", Config.LOGLEVEL);
+                            tiles[x + 1, y].getTileContains().AddCreature(new Creature(creature));
+                            tiles[x + 1, y].setPassable(TileCollision.TAKEN);
+                            run = false;
+                        }
+                        break;
+                    case 2:
+                        Config.applog.print("case 2", Config.LOGLEVEL);
+                        if (tiles[x, y].getTileCollision().Equals(TileCollision.PASSABLE))
+                        {
+                            Config.applog.print("case 2 passable", Config.LOGLEVEL);
+                            tiles[x, y].setPassable(TileCollision.TAKEN);
+                        }
+                        break;
+                    case 3:
+                        Config.applog.print("case 3", Config.LOGLEVEL);
+                        if (tiles[x, y - 1].getTileCollision().Equals(TileCollision.PASSABLE))
+                        {
+                            Config.applog.print("case 3 passable", Config.LOGLEVEL);
+                            tiles[x, y - 1].getTileContains().AddCreature(new Creature(creature));
+                            tiles[x, y - 1].setPassable(TileCollision.TAKEN);
+                            run = false;
+                        }
+                        break;
+                    case 4:
+                        Config.applog.print("case 4", Config.LOGLEVEL);
+                        if (tiles[x, y + 1].getTileCollision().Equals(TileCollision.PASSABLE))
+                        {
+                            Config.applog.print("case 4 passable", Config.LOGLEVEL);
+                            tiles[x, y + 1].getTileContains().AddCreature(new Creature(creature));
+                            tiles[x, y + 1].setPassable(TileCollision.TAKEN);
+                            run = false;
+                        }
+                        break;
                 }
                 if (!run)
                 {
+                    tiles[x, y].setPassable(TileCollision.PASSABLE);
                     tiles[x, y].getTileContains().RemoveCreature(creature);
                 }
-            }
-            foreach (Vector2 position in removal.Keys)
-            {
-                //Config.applog.print(string.Format("Remove tagged enemies with id {0}", removal[position].getID()), Config.LOGLEVEL);
-                //Config.applog.print(string.Format("length before: {0}", enemies.Count), Config.LOGLEVEL);
-
-                tiles[(int)position.X, (int)position.Y].getTileContains().RemoveCreature(removal[position]);
-                Config.applog.print(string.Format("length after: {0}", creatures.Count), Config.LOGLEVEL);
             }
         }
         /// <summary>

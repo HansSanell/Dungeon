@@ -141,7 +141,7 @@ namespace Dungeon
                 if (timeToSpawn <= 0)
                 {
                     level.spawn(gameTime);
-                    timeToSpawn = 3000.0f; //TODO: change back to 30.0f
+                    timeToSpawn = 0.0f; //TODO: change back to 30.0f
                 }
             }
             //Generate a new level 
@@ -154,6 +154,10 @@ namespace Dungeon
                     levelPath = "Content/" + levelPath;
                 }
                 LoadContent();
+            }
+            if ((Keyboard.GetState()).IsKeyDown(Keys.Space))
+            {
+                Config.applog.print("battlespawn reddot", Config.LOGLEVEL);
             }
             // "Camera" movement
             if ((Keyboard.GetState()).IsKeyDown(Keys.Left))
