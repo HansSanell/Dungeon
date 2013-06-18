@@ -160,6 +160,7 @@ namespace Dungeon
             }
             //Add loops for creature/enemy attack here. Not integrated with the move? 
         }
+        //fix so that enemise and creature acts the same, enemise respawns after a fight, values don't match
         private void moveEnemies(Random rnd, int x, int y, List<Enemy> enemies)
         {
             //Add function call for moving creatures respecively enemies based on the list 
